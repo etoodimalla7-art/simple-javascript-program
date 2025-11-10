@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Intro to JavaScript — Client-side Scripting</title>
+
+  <!-- Minimal styling for clarity -->
+  <style>
+    :root{
+      --bg: #f7fafc;
+      --card: #ffffff;
+      --accent: #2563eb;
+      --muted: #64748b;
+      --success: #16a34a;
+    }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: var(--bg);
+      color: #0f172a;
+      line-height:1.5;
+      padding: 2rem;
+    }
+    .container{
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+      margin-bottom:1.25rem;
+    }
+    h1{ margin:0; font-size:1.5rem; color:var(--accent) }
+    p.lead{ margin: 0.25rem 0 1rem 0; color:var(--muted) }
+
+    .card{
+      background: var(--card);
+      border-radius: 0.6rem;
+      padding: 1rem 1.25rem;
+      box-shadow: 0 6px 18px rgba(2,6,23,0.06);
+      margin-bottom:1rem;
+    }
+
+    button{
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: .5rem .75rem;
+      border-radius: .35rem;
+      cursor: pointer;
+      font-weight:600;
+    }
+    input, select {
+      padding: .45rem .5rem;
+      border-radius: .35rem;
+      border: 1px solid #cbd5e1;
+      font-size: .95rem;
+    }
+    label { display:block; margin-top:.5rem; font-size:.9rem; color:var(--muted) }
+    .row{ display:flex; gap: .6rem; align-items:center; flex-wrap:wrap; }
+    .muted { color: var(--muted); font-size:.9rem; }
+
+    /* small helper for output messages */
+    .msg { margin-top:.6rem; font-weight:600; }
+    .success { color: var(--success) }
+    .list { padding-left:1.1rem }
+    footer { margin-top:1.5rem; font-size:.85rem; color:var(--muted) }
+    code { background:#f1f5f9; padding:.15rem .35rem; border-radius:.25rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div>
+        <h1>JavaScript — Client-side Scripting (Intro)</h1>
+        <p class="lead">Examples of common client-side tasks: DOM updates, events, validation, and storage.</p>
+      </div>
+      <div class="muted">Open this file in a browser</div>
+    </header>
+
+    <!-- 1: Simple dynamic greeting and date -->
+    <section class="card" aria-labelledby="greet-title">
+      <h2 id="greet-title">1. Greeting & Current Time</h2>
+      <p>A simple example that uses JavaScript to update the page content dynamically.</p>
+
+      <div class="row" style="margin-top:.5rem;">
+        <button id="showTimeBtn" type="button">Show current date & time</button>
+        <button id="themeBtn" type="button">Toggle dark theme</button>
+      </div>
+
+      <div id="timeOutput" class="msg" aria-live="polite"></div>
+      <small class="muted">The button above uses <code>Date()</code> and updates the DOM.</small>
+    </section>
+
+    <!-- 2: DOM manipulation - add items -->
+    <section class="card" aria-labelledby="dom-title">
+      <h2 id="dom-title">2. DOM Manipulation — Add / Remove Items</h2>
+      <p>Client-side scripts frequently modify the document structure (DOM) without refreshing the page.</p>
+
+      <label for="newItem">New item text</label>
+      <div class="row">
+        <input id="newItem" type="text" placeholder="Type something (e.g., 'Buy milk')" />
+        <button id="addItemBtn">Add</button>
+      </div>
+
+      <div style="margin-top:.75rem;">
+        <strong>List:</strong>
+        <ul id="itemsList" class="list" aria-live="polite"></ul>
+      </div>
+      <small class="muted">Items are stored in <code>localStorage</code> so they persist between reloads.</small>
+    </section>
+
+    <!-- 3: Form validation -->
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">3. Client-side Form Validation</h2>
+      <p>Validate user input in the browser before sending to a server (improves UX and reduces invalid requests).</p>
+
+      <form id="contactForm" novalidate>
+        <label for="name">Name (required)</label>
+        <input id="name" name="name" required type="text" placeholder="Your name" />
+
+        <label for="email">Email (required)</label>
+        <input id="email" name="email" required type="email" placeholder="you@example.com" />
+
+        <label for="age">Age (optional)</label>
+        <input id="age" name="age" type="number" min="1" max="120" placeholder="e.g., 21" />
+
+        <div style="margin-top:.6rem;">
+          <button type="submit">Submit</button>
+          <button type="reset">Reset</button>
+        </div>
+        <div id="formMsg" class="msg" aria-live="polite"></div>
+      </form>
+      <small class="muted">This script prevents submission if required fields are missing or email is invalid.</small>
+    </section>
+
+    <!-- 4: Example: simple calculator (client-side logic) -->
+    <section class="card" aria-labelledby="calc-title">
+      <h2 id="calc-title">4. Simple Client-side Calculator</h2>
+      <p>Perform calculations immediately in the browser without server round-trips.</p>
+
+      <div class="row">
+        <input id="num1" type="number" placeholder="Number 1" />
+        <input id="num2" type="number" placeholder="Number 2" />
+        <select id="op">
+          <option value="add">+</option>
+          <option value="sub">−</option>
+          <option value="mul">×</option>
+          <option value="div">÷</option>
+        </select>
+        <button id="calcBtn">Calculate</button>
+      </div>
+
+      <div id="calcResult" class="msg"></div>
+      <small class="muted">Client-side arithmetic; check division by zero handling.</small>
+    </section>
+
+    <footer class="card">
+      <strong>What this demonstrates:</strong>
+      <ul>
+        <li>JavaScript runs in the browser (client-side) and can modify the page instantly.</li>
+        <li>Common uses: UI updates, form checks, storing small amounts of data on the client (localStorage), and responding to events.</li>
+        <li>Always pair client-side validation with server-side validation for security.</li>
+      </ul>
+    </footer>
+  </div>
+
+  <!-- SCRIPT: keep at end so DOM is ready; could also use defer attribute -->
+  <script>
+    /*********************************************************
+     * Simple, well-documented JavaScript examples
+     *********************************************************/
+
+    // --- Utilities ---
+    const $ = (sel) => document.querySelector(sel);
+    const create = (tag, props = {}) => Object.assign(document.createElement(tag), props);
+
+    // -----------------------------
+    // 1. Show current date/time & theme toggle
+    // -----------------------------
+    const timeOutput = $('#timeOutput');
+    $('#showTimeBtn').addEventListener('click', () => {
+      // Use toLocaleString to make the output human-friendly
+      const now = new Date();
+      timeOutput.textContent = 'Current date & time: ' + now.toLocaleString();
+    });
+
+    // Theme toggle — lightweight: toggles a dark mode by inverting colors
+    const themeBtn = $('#themeBtn');
+    let dark = false;
+    themeBtn.addEventListener('click', () => {
+      dark = !dark;
+      if (dark) {
+        document.documentElement.style.setProperty('--bg', '#0b1220');
+        document.documentElement.style.setProperty('--card', '#071426');
+        document.documentElement.style.setProperty('--accent', '#60a5fa');
+        document.documentElement.style.setProperty('--muted', '#9aa9bf');
+      } else {
+        // revert to defaults
+        document.documentElement.style.setProperty('--bg', '#f7fafc');
+        document.documentElement.style.setProperty('--card', '#ffffff');
+        document.documentElement.style.setProperty('--accent', '#2563eb');
+        document.documentElement.style.setProperty('--muted', '#64748b');
+      }
+    });
+
+
+    // -----------------------------
+    // 2. DOM manipulation + localStorage persistence
+    // -----------------------------
+    const listEl = $('#itemsList');
+    const newItemInput = $('#newItem');
+    const addItemBtn = $('#addItemBtn');
+
+    // Save/load list to localStorage under the key "todoList"
+    function loadList(){
+      const raw = localStorage.getItem('todoList');
+      let items = [];
+      try {
+        items = raw ? JSON.parse(raw) : [];
+      } catch(e) { items = []; }
+      // clear UI
+      listEl.innerHTML = '';
+      items.forEach((text, idx) => {
+        const li = create('li');
+        li.textContent = text + ' ';
+        // remove button
+        const del = create('button', { textContent: 'Remove' });
+        del.style.marginLeft = '.5rem';
+        del.addEventListener('click', () => {
+          removeItem(idx);
+        });
+        li.appendChild(del);
+        listEl.appendChild(li);
+      });
+    }
+
+    function saveList(items){
+      localStorage.setItem('todoList', JSON.stringify(items));
+      loadList();
+    }
+
+    function addItem(text){
+      if (!text || !text.trim()) return;
+      const raw = localStorage.getItem('todoList');
+      const items = raw ? JSON.parse(raw) : [];
+      items.push(text.trim());
+      saveList(items);
+      newItemInput.value = '';
+      newItemInput.focus();
+    }
+
+    function removeItem(index){
+      const raw = localStorage.getItem('todoList');
+      const items = raw ? JSON.parse(raw) : [];
+      if (index >=0 && index < items.length) {
+        items.splice(index, 1);
+        saveList(items);
+      }
+    }
+
+    addItemBtn.addEventListener('click', () => addItem(newItemInput.value));
+    // also allow Enter key to add
+    newItemInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') addItem(newItemInput.value);
+    });
+
+    // Load on startup
+    loadList();
+
+    // -----------------------------
+    // 3. Form validation (client-side)
+    // -----------------------------
+    const contactForm = $('#contactForm');
+    const formMsg = $('#formMsg');
+
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault(); // prevent actual submission for demo purposes
+
+      // Basic HTML5 validity checking can be used:
+      if (!contactForm.checkValidity()){
+        formMsg.textContent = 'Please fill required fields correctly.';
+        formMsg.className = 'msg';
+        return;
+      }
+
+      // Additional custom validation (example): simple name length check
+      const name = $('#name').value.trim();
+      const email = $('#email').value.trim();
+      if (name.length < 2) {
+        formMsg.textContent = 'Name must be at least 2 characters.';
+        formMsg.className = 'msg';
+        return;
+      }
+
+      // simulate success action (e.g., send to server)
+      formMsg.textContent = `Thanks ${name}! (email: ${email}) — form validated client-side.`;
+      formMsg.className = 'msg success';
+      // NOTE: In real apps, you should still validate on the server!
+    });
+
+    contactForm.addEventListener('reset', () => {
+      formMsg.textContent = '';
+      formMsg.className = 'msg';
+    });
+
+    // -----------------------------
+    // 4. Client-side calculator
+    // -----------------------------
+    const calcBtn = $('#calcBtn');
+    const calcResult = $('#calcResult');
+
+    calcBtn.addEventListener('click', () => {
+      const n1 = parseFloat($('#num1').value);
+      const n2 = parseFloat($('#num2').value);
+      const op = $('#op').value;
+
+      // handle missing inputs
+      if (Number.isNaN(n1) || Number.isNaN(n2)) {
+        calcResult.textContent = 'Please enter both numbers.';
+        calcResult.className = 'msg';
+        return;
+      }
+
+      let result;
+      switch(op) {
+        case 'add': result = n1 + n2; break;
+        case 'sub': result = n1 - n2; break;
+        case 'mul': result = n1 * n2; break;
+        case 'div':
+          if (n2 === 0) {
+            calcResult.textContent = 'Cannot divide by zero.';
+            calcResult.className = 'msg';
+            return;
+          }
+          result = n1 / n2;
+          break;
+        default: result = 'unknown op';
+      }
+      calcResult.textContent = 'Result: ' + result;
+      calcResult.className = 'msg success';
+    });
+
+    // --- End of script ---
+  </script>
+</body>
+</html>
